@@ -4,11 +4,25 @@
         <title></title>
         <style>
             html {
-                background-color: black;
+                /* background-color: black; */
             }
         </style>
     </head>
     <body>
+        <form id="word-form"></form>
+        <button onclick="evaluateSounds();">Evaluate</button>
+        <table>
+            <thead>
+                <th>Sound</th>
+                <th>Initial</th>
+                <th>Medial</th>
+                <th>Final</th>
+            </thead>
+            <tbody id="gf-tbody">
+
+            </tbody>
+        </table>
+
         <script src="needlemanWunsch.js"></script>
         <script src="main.js"></script>
     </body>
