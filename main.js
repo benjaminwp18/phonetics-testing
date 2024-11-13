@@ -26,9 +26,14 @@ class SequenceMatch {
 }
 
 class Word {
-    constructor(english, transcription) {
+    constructor(english, transcription, occurances = []) {
         this.english = english;
         this.transcription = transcription;
+        this.occurances = occurances;
+    }
+
+    addSoundOccurance(occurance) {
+        this.occurances.push(occurance);
     }
 }
 
@@ -54,72 +59,178 @@ class SoundOccurances {
     }
 }
 
-const WORD_FORM = document.getElementById('word-form');
+const WORD_TBODY = document.getElementById('word-tbody');
 const GF_TBODY = document.getElementById('gf-tbody');
 
 const WORDS = [
     new Word('house', 'haʊs'),
     new Word('tree', 'tri'),
     new Word('window', 'wɪndo'),
-    new Word('window', 'wɪndo'),
-    new Word('window', 'wɪndo'),
-    new Word('window', 'wɪndo'),
+    new Word('telephone', 'tεləfon'),
+    new Word('cup', 'kʌp'),
+    new Word('knife', 'naɪf'),
+    new Word('spoon', 'spun'),
+    new Word('girl', 'gɝl'),
+    new Word('ball', 'bɔl'),
+    new Word('wagon', 'wægən'),
+    new Word('shovel', 'ʃʌvəl'),
+    new Word('monkey', 'mʌŋki'),
+    new Word('banana', 'bənænə'),
+    new Word('zipper', 'zɪpɚ'),
+    new Word('scissors', 'sɪzɚz'),
+    new Word('duck', 'dʌk'),
+    new Word('quack', 'kwæk'),
+    new Word('yellow', 'jεlo'),
+    new Word('vaccuum', 'vækjum'),
+    new Word('watch', 'watʃ'),
+    new Word('plane', 'plen'),
+    new Word('swimming', 'swɪmɪŋ'),
+    new Word('watches', 'watʃɪz'),
+    new Word('lamp', 'læmp'),
+    new Word('car', 'kar'),
+    new Word('blue', 'blu'),
+    new Word('rabbit', 'ræbɪt'),
+    new Word('carrot', 'kærɪt'),
+    new Word('orange', 'ɔrɪndʒ'),
+    new Word('fishing', 'fɪʃɪŋ'),
+    new Word('chair', 'tʃεr'),
+    new Word('feather', 'fεðɚ'),
+    new Word('pencils', 'pεnsəlz'),
+    new Word('this', 'ðɪs'),
+    new Word('bathtub', 'bæθtʌb'),
+    new Word('ring', 'rɪŋ'),
+    new Word('finger', 'fɪŋgɚ'),
+    new Word('thumb', 'θʌm'),
+    new Word('jumping', 'dʒʌmpɪŋ'),
+    new Word('pajamas', 'pədʒæməz'),
+    new Word('flowers', 'flaʊɚz'),
+    new Word('brush', 'brʌʃ'),
+    new Word('drum', 'drʌm'),
+    new Word('frog', 'frɔg'),
+    new Word('green', 'grin'),
+    new Word('clown', 'klaʊn'),
+    new Word('balloons', 'bəlunz'),
+    new Word('crying', 'kraɪɪŋ'),
+    new Word('glasses', 'glæsɪz'),
+    new Word('slide', 'slaɪd'),
+    new Word('stars', 'starz'),
+    new Word('five', 'faɪv'),
 ];
 
 const GF_SOUND_TABLE = [
     new SoundOccurances('h', [
         new SoundOccurance(0, 0),
-        new SoundOccurance(0, 0),
-        new SoundOccurance(0, 0),
+        // new SoundOccurance(),
+        // new SoundOccurance(),
     ]),
     new SoundOccurances('s', [
+        null,
+        null,
         new SoundOccurance(0, 3)
     ]),
     new SoundOccurances('tr', [
-        new SoundOccurance(1, 0, 1)
+        new SoundOccurance(1, 0, 1),
+        // new SoundOccurance(),
+        // new SoundOccurance(),
     ]),
     new SoundOccurances('w', [
-        new SoundOccurance(2, 0)
+        new SoundOccurance(2, 0),
+        // new SoundOccurance(),
+        // new SoundOccurance(),
     ]),
     new SoundOccurances('d', [
+        // new SoundOccurance(),
         null,
-        new SoundOccurance(2, 3)
+        new SoundOccurance(2, 3),
+        // new SoundOccurance(),
     ]),
+    new SoundOccurances('t', [
+        new SoundOccurance(3, 0),
+        // new SoundOccurance(),
+        // new SoundOccurance(),
+    ]),
+    new SoundOccurances('f', [
+        new SoundOccurance(3, 4),
+        // new SoundOccurance(),
+        new SoundOccurance(5, 3),
+    ]),
+    new SoundOccurances('k', [
+        new SoundOccurance(4, 0),
+        // new SoundOccurance(),
+        // new SoundOccurance(),
+    ]),
+    new SoundOccurances('p', [
+        null,
+        null,
+        new SoundOccurance(4, 2),
+    ]),
+    new SoundOccurances('n', [
+        new SoundOccurance(5, 0),
+        // new SoundOccurance(),
+        // new SoundOccurance(),
+    ]),
+    new SoundOccurances('sp', [
+        new SoundOccurance(6, 0, 1),
+        // new SoundOccurance(),
+        // new SoundOccurance(),
+    ]),
+    new SoundOccurances('g', [
+        new SoundOccurance(6, 0),
+        // new SoundOccurance(),
+        // new SoundOccurance(),
+    ]),
+    new SoundOccurances('b', [
+        new SoundOccurance(7, 0),
+        // new SoundOccurance(),
+        // new SoundOccurance(),
+    ]),
+    new SoundOccurances('l', [
+        // new SoundOccurance(),
+        // new SoundOccurance(),
+        null,
+        null,
+        new SoundOccurance(7, 2),
+    ]),
+    // new SoundOccurances('', [
+    //     new SoundOccurance(),
+    //     new SoundOccurance(),
+    //     new SoundOccurance(),
+    // ]),
 ];
-
-// TODO: don't create a new array for this; modify WORDS instead (score occurances in the Word objects)
-const GF_SOUND_TABLE_BY_WORD = new Array(WORDS.length);
-for (let i = 0; i < GF_SOUND_TABLE_BY_WORD.length; i++) {
-    GF_SOUND_TABLE_BY_WORD[i] = [];
-}
 
 for (const sound of GF_SOUND_TABLE) {
     for (const occurance of sound.occurances) {
         if (occurance !== null) {
-            GF_SOUND_TABLE_BY_WORD[occurance.indexOfWord].push(occurance);
+            WORDS[occurance.indexOfWord].addSoundOccurance(occurance);
         }
     }
 }
 
 window.addEventListener('load', () => {
     for (let i = 0; i < WORDS.length; i++) {
-        const label = document.createElement('label');
-        label.setAttribute('for', `word-input-${i}`);
-        label.innerText = `${WORDS[i].english} (${WORDS[i].transcription})`;
+        const wordEnglish = document.createElement('td');
+        wordEnglish.innerText = WORDS[i].english;
+
+        const correctTranscription = document.createElement('td');
+        correctTranscription.innerText = WORDS[i].transcription;
+
+        const answeredTranscription = document.createElement('td');
 
         const input = document.createElement('input');
         input.type = 'text';
-        input.classList.add('ipa-input');
+        input.classList.add('ipa-input', 'form-control');
         input.id = `word-input-${i}`;
         input.name = `word-input-${i}`;
         input.addEventListener('input', transcriptionShortcuts)
 
-        const div = document.createElement('div');
-        div.classList.add('form-word-div');
+        answeredTranscription.appendChild(input);
 
-        div.appendChild(label);
-        div.appendChild(input);
-        WORD_FORM.appendChild(div);
+        const row = document.createElement('tr');
+
+        row.appendChild(wordEnglish);
+        row.appendChild(correctTranscription);
+        row.appendChild(answeredTranscription);
+        WORD_TBODY.appendChild(row);
     }
 
     for (const sound of GF_SOUND_TABLE) {
@@ -131,7 +242,10 @@ window.addEventListener('load', () => {
 
         for (const occurance of sound.occurances) {
             const dataCell = document.createElement('td');
-            if (occurance !== null) {
+            if (occurance === null) {
+                dataCell.classList.add('table-active');
+            }
+            else {
                 dataCell.id = occurance.toID();
             }
             row.appendChild(dataCell);
@@ -142,15 +256,17 @@ window.addEventListener('load', () => {
 });
 
 function evaluateSounds() {
-    for (const word of GF_SOUND_TABLE_BY_WORD) {
-        if (word.length === 0) {
+    for (const word of WORDS) {
+        const occurances = word.occurances;
+
+        if (occurances.length === 0) {
             continue;
         }
 
-        const wordInput = document.getElementById(`word-input-${word[0].indexOfWord}`);
+        const wordInput = document.getElementById(`word-input-${occurances[0].indexOfWord}`);
         const wordTranscription = wordInput.value;
-        const sequenceMatch = new SequenceMatch(WORDS[word[0].indexOfWord].transcription, wordTranscription);
-        for (const occurance of word) {
+        const sequenceMatch = new SequenceMatch(WORDS[occurances[0].indexOfWord].transcription, wordTranscription);
+        for (const occurance of occurances) {
             const tableCell = document.getElementById(occurance.toID());
             tableCell.innerText = sequenceMatch.getReplacement(occurance.startIndexOfSound, occurance.endIndexOfSound).join('');
         }
