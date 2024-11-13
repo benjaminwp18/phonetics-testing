@@ -103,7 +103,7 @@ function needlemanWunsch(sequence1, sequence2, match = 1, mismatch = -1, gap = -
         }
     }
 
-    console.log(alignmentGridToString(alignmentGrid));
+    // console.log(alignmentGridToString(alignmentGrid));
 
     const bestPathPositions = dijkstra(alignmentGrid);
 
@@ -119,7 +119,7 @@ function needlemanWunsch(sequence1, sequence2, match = 1, mismatch = -1, gap = -
         edits[sequence1Index].push(sequence2Index);
     }
 
-    console.log(edits);
+    // console.log(edits);
 
     return edits;
 }
@@ -189,8 +189,6 @@ function dijkstra(alignmentGrid, reverse = false) {
         }
     }
 
-    console.warn(graphMatrix);
-
     const solutionPositions = [];
     let vertex = graphMatrix[0][0];
     while (vertex !== undefined) {
@@ -200,7 +198,6 @@ function dijkstra(alignmentGrid, reverse = false) {
     if (reverse) {
         solutionPositions.reverse();
     }
-    console.warn(solutionPositions);
 
     return solutionPositions;
 }

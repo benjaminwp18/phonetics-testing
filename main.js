@@ -48,7 +48,7 @@ class SoundOccurance {
     }
 
     toID() {
-        return `gf-data-${this.indexOfWord}-${this.startIndexOfSound}-${this.endIndexOfSound}`;
+        return `artic-data-${this.indexOfWord}-${this.startIndexOfSound}-${this.endIndexOfSound}`;
     }
 }
 
@@ -60,151 +60,7 @@ class SoundOccurances {
 }
 
 const WORD_TBODY = document.getElementById('word-tbody');
-const GF_TBODY = document.getElementById('gf-tbody');
-
-const WORDS = [
-    new Word('house', 'haʊs'),
-    new Word('tree', 'tri'),
-    new Word('window', 'wɪndo'),
-    new Word('telephone', 'tεləfon'),
-    new Word('cup', 'kʌp'),
-    new Word('knife', 'naɪf'),
-    new Word('spoon', 'spun'),
-    new Word('girl', 'gɝl'),
-    new Word('ball', 'bɔl'),
-    new Word('wagon', 'wægən'),
-    new Word('shovel', 'ʃʌvəl'),
-    new Word('monkey', 'mʌŋki'),
-    new Word('banana', 'bənænə'),
-    new Word('zipper', 'zɪpɚ'),
-    new Word('scissors', 'sɪzɚz'),
-    new Word('duck', 'dʌk'),
-    new Word('quack', 'kwæk'),
-    new Word('yellow', 'jεlo'),
-    new Word('vaccuum', 'vækjum'),
-    new Word('watch', 'watʃ'),
-    new Word('plane', 'plen'),
-    new Word('swimming', 'swɪmɪŋ'),
-    new Word('watches', 'watʃɪz'),
-    new Word('lamp', 'læmp'),
-    new Word('car', 'kar'),
-    new Word('blue', 'blu'),
-    new Word('rabbit', 'ræbɪt'),
-    new Word('carrot', 'kærɪt'),
-    new Word('orange', 'ɔrɪndʒ'),
-    new Word('fishing', 'fɪʃɪŋ'),
-    new Word('chair', 'tʃεr'),
-    new Word('feather', 'fεðɚ'),
-    new Word('pencils', 'pεnsəlz'),
-    new Word('this', 'ðɪs'),
-    new Word('bathtub', 'bæθtʌb'),
-    new Word('ring', 'rɪŋ'),
-    new Word('finger', 'fɪŋgɚ'),
-    new Word('thumb', 'θʌm'),
-    new Word('jumping', 'dʒʌmpɪŋ'),
-    new Word('pajamas', 'pədʒæməz'),
-    new Word('flowers', 'flaʊɚz'),
-    new Word('brush', 'brʌʃ'),
-    new Word('drum', 'drʌm'),
-    new Word('frog', 'frɔg'),
-    new Word('green', 'grin'),
-    new Word('clown', 'klaʊn'),
-    new Word('balloons', 'bəlunz'),
-    new Word('crying', 'kraɪɪŋ'),
-    new Word('glasses', 'glæsɪz'),
-    new Word('slide', 'slaɪd'),
-    new Word('stars', 'starz'),
-    new Word('five', 'faɪv'),
-];
-
-const GF_SOUND_TABLE = [
-    new SoundOccurances('h', [
-        new SoundOccurance(0, 0),
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('s', [
-        null,
-        null,
-        new SoundOccurance(0, 3)
-    ]),
-    new SoundOccurances('tr', [
-        new SoundOccurance(1, 0, 1),
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('w', [
-        new SoundOccurance(2, 0),
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('d', [
-        // new SoundOccurance(),
-        null,
-        new SoundOccurance(2, 3),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('t', [
-        new SoundOccurance(3, 0),
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('f', [
-        new SoundOccurance(3, 4),
-        // new SoundOccurance(),
-        new SoundOccurance(5, 3),
-    ]),
-    new SoundOccurances('k', [
-        new SoundOccurance(4, 0),
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('p', [
-        null,
-        null,
-        new SoundOccurance(4, 2),
-    ]),
-    new SoundOccurances('n', [
-        new SoundOccurance(5, 0),
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('sp', [
-        new SoundOccurance(6, 0, 1),
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('g', [
-        new SoundOccurance(6, 0),
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('b', [
-        new SoundOccurance(7, 0),
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-    ]),
-    new SoundOccurances('l', [
-        // new SoundOccurance(),
-        // new SoundOccurance(),
-        null,
-        null,
-        new SoundOccurance(7, 2),
-    ]),
-    // new SoundOccurances('', [
-    //     new SoundOccurance(),
-    //     new SoundOccurance(),
-    //     new SoundOccurance(),
-    // ]),
-];
-
-for (const sound of GF_SOUND_TABLE) {
-    for (const occurance of sound.occurances) {
-        if (occurance !== null) {
-            WORDS[occurance.indexOfWord].addSoundOccurance(occurance);
-        }
-    }
-}
+const ARTIC_TBODY = document.getElementById('artic-tbody');
 
 window.addEventListener('load', () => {
     for (let i = 0; i < WORDS.length; i++) {
@@ -233,7 +89,7 @@ window.addEventListener('load', () => {
         WORD_TBODY.appendChild(row);
     }
 
-    for (const sound of GF_SOUND_TABLE) {
+    for (const sound of ARTIC_SOUND_TABLE) {
         const row = document.createElement('tr');
 
         const nameCell = document.createElement('td');
@@ -251,7 +107,7 @@ window.addEventListener('load', () => {
             row.appendChild(dataCell);
         }
 
-        GF_TBODY.appendChild(row);
+        ARTIC_TBODY.appendChild(row);
     }
 });
 
@@ -263,14 +119,41 @@ function evaluateSounds() {
             continue;
         }
 
-        const wordInput = document.getElementById(`word-input-${occurances[0].indexOfWord}`);
-        const wordTranscription = wordInput.value;
-        const sequenceMatch = new SequenceMatch(WORDS[occurances[0].indexOfWord].transcription, wordTranscription);
+        const wordIndex = occurances[0].indexOfWord;
+        const wordInput = document.getElementById(`word-input-${wordIndex}`);
+        const correctTranscription = WORDS[wordIndex].transcription;
+        const answeredTranscription = wordInput.value;
+        console.log(correctTranscription, answeredTranscription);
+        const sequenceMatch = new SequenceMatch(correctTranscription, answeredTranscription);
         for (const occurance of occurances) {
             const tableCell = document.getElementById(occurance.toID());
-            tableCell.innerText = sequenceMatch.getReplacement(occurance.startIndexOfSound, occurance.endIndexOfSound).join('');
+            const replacement = sequenceMatch.getReplacement(occurance.startIndexOfSound, occurance.endIndexOfSound).join('');
+            const original = correctTranscription.substring(occurance.startIndexOfSound, occurance.endIndexOfSound + 1);
+            tableCell.innerText = replacement;
+            console.log(replacement);
+            if (replacement === original) {
+                tableCell.style.color = "lightgray";
+                tableCell.style.fontStyle = "italic";
+            }
         }
     }
+}
+
+IMPORT_ANSWERS_TEXTAREA = document.getElementById('import-answers-textarea');
+
+function importAnswers() {
+    const answers = IMPORT_ANSWERS_TEXTAREA.value.split('\n');
+    for (let i = 0; i < answers.length; i++) {
+        document.getElementById(`word-input-${i}`).value = answers[i];
+    }
+}
+
+function exportAnswers() {
+    const answers = new Array(WORDS.length);
+    for (let i = 0; i < WORDS.length; i++) {
+        answers[i] = document.getElementById(`word-input-${i}`).value;
+    }
+    IMPORT_ANSWERS_TEXTAREA.value = answers.join('\n');
 }
 
 function transcriptionShortcuts(event) {
