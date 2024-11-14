@@ -123,14 +123,12 @@ function evaluateSounds() {
         const wordInput = document.getElementById(`word-input-${wordIndex}`);
         const correctTranscription = WORDS[wordIndex].transcription;
         const answeredTranscription = wordInput.value;
-        console.log(correctTranscription, answeredTranscription);
         const sequenceMatch = new SequenceMatch(correctTranscription, answeredTranscription);
         for (const occurance of occurances) {
             const tableCell = document.getElementById(occurance.toID());
             const replacement = sequenceMatch.getReplacement(occurance.startIndexOfSound, occurance.endIndexOfSound).join('');
             const original = correctTranscription.substring(occurance.startIndexOfSound, occurance.endIndexOfSound + 1);
             tableCell.innerText = replacement;
-            console.log(replacement);
             if (replacement === original) {
                 tableCell.style.color = "lightgray";
                 tableCell.style.fontStyle = "italic";

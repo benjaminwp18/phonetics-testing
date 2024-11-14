@@ -220,7 +220,7 @@ const ARTIC_SOUND_TABLE = [
         null, null
     ]),
     new SoundOccurances('st', [
-        new SoundOccurance(50, 0, 1),
+        new SoundOccurance(51, 0, 1),
         null, null
     ]),
     new SoundOccurances('sw', [
