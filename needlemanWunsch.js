@@ -1,11 +1,29 @@
+/**
+ * Directed graph edge
+ */
 class Edge {
+    /**
+     * Construct a directed graph edge
+     * @param {Vertex} destination vertex that this edge goes to
+     * @param {Number} cost cost of traversing this edge (higher is worse)
+     */
     constructor(destination, cost) {
         this.destination = destination;
         this.cost = cost;
     }
 }
 
+/**
+ * Graph vertex
+ */
 class Vertex {
+    /**
+     * Construct a graph vertex
+     * @param {Edge[]} edges array of outgoing edges from this vertex
+     * @param {Coords} position coords of N-W cell represented by this vertex
+     * @param {Number} distance distance from source node for Dijkstra
+     * @param {Vertex} previous previous vertex in shortest path for Dijkstra
+     */
     constructor(edges, position, distance = Number.MAX_SAFE_INTEGER, previous = undefined) {
         this.edges = edges;
         this.position = position;
@@ -14,52 +32,106 @@ class Vertex {
     }
 }
 
+/**
+ * Very basic priority queue that sorts on dequeue.
+ * Expensive, but it's fine for the tiny graphs we work with.
+ */
 class SimplePriorityQueue {
-    constructor(compareFunction) {
+    /**
+     * Construct a priority queue
+     * @param {((a: never, b: never) => number)} compareFunction the function used to sort this priority queue
+     */
+    constructor(compareFunction = undefined) {
         this.compareFunction = compareFunction;
         this.contents = [];
     }
 
+    /**
+     * Add an element to this queue
+     * @param {*} element the element to add
+     */
     enqueue(element) {
         this.contents.push(element);
     }
 
+    /**
+     * Remove & return the first element in the queue
+     * @returns the element removed from the queue
+     */
     dequeue() {
         this.contents.sort(this.compareFunction);
         const removedElement = this.contents.splice(this.contents.length - 1)[0];
         return removedElement;
     }
 
+    /**
+     * Determine if the provided element is in the queue
+     * @param {*} element the element to check for
+     * @returns true if the element exists in the queue, false otherwise
+     */
     contains(element) {
         return this.contents.includes(element);
     }
 
+    /**
+     * Determine if the queue is empty
+     * @returns true if the queue is empty, false otherwise
+     */
     isEmpty() {
         return this.contents.length === 0;
     }
 
+    /**
+     * Log the contents of the queue to the console; for debugging.
+     */
     print() {
         this.contents.sort(this.compareFunction);
         console.log(this.contents);
     }
 }
 
+/**
+ * Row/col coordinates in a 2D array, or an offset in the same.
+ */
 class Coords {
-    constructor(rowOffset, colOffset) {
-        this.r = rowOffset;
-        this.c = colOffset;
+    /**
+     * Construct a set of coordinates
+     * @param {Number} r integer row index
+     * @param {Number} c integer column index
+     */
+    constructor(r, c) {
+        this.r = r;
+        this.c = c;
     }
 
-    equals(offset) {
-        return this.r === offset.r && this.c === offset.c;
+    /**
+     * Determine whether this Coords has the same r/c as another Coords
+     * @param {Coords} otherCoords the other Coords object to compare against
+     * @returns true if the r & c of this Coords is the same as the other Coords, false otherwise
+     */
+    equals(otherCoords) {
+        return this.r === otherCoords.r && this.c === otherCoords.c;
     }
 
-    minus(offset) {
-        return new Coords(this.r - offset.r, this.c - offset.c);
+    /**
+     * Subtract the subtrahends r/c from this Coords r/c
+     * @param {Coords} subtrahend Coords to subtract from this Coords
+     * @returns new Coords object w/the subtracted Coords
+     */
+    minus(subtrahend) {
+        return new Coords(this.r - subtrahend.r, this.c - subtrahend.c);
     }
 }
 
+/**
+ * Element of N-W grid
+ */
 class Alignment {
+    /**
+     * Construct an alignment
+     * @param {Coords} offset relative Coords of neighbor grid cell selected for max similar score
+     * @param {Number} score integer N-W score
+     */
     constructor(offset, score) {
         this.offset = offset;
         this.score = score;
@@ -71,7 +143,17 @@ const LEFT = new Coords(0, -1);
 const DIAG = new Coords(-1, -1);
 const NONE = new Coords(0, 0);
 
+/**
+ * 
+ * @param {*} sequence1 
+ * @param {*} sequence2 
+ * @param {*} match 
+ * @param {*} mismatch 
+ * @param {*} gap 
+ * @returns 
+ */
 function needlemanWunsch(sequence1, sequence2, match = 1, mismatch = -1, gap = -2) {
+    // Init the alignment (similarity) grid
     const numRows = sequence1.length + 1;
     const numCols = sequence2.length + 1;
     let alignmentGrid = new Array(numRows);
@@ -86,6 +168,7 @@ function needlemanWunsch(sequence1, sequence2, match = 1, mismatch = -1, gap = -
 
     alignmentGrid[0][0] = [new Alignment(NONE, 0)];
 
+    // Fill out the alignment grid
     for (let r = 1; r < numRows; r++) {
         for (let c = 1; c < numCols; c++) {
             const topAlignment = new Alignment(TOP, alignmentGrid[r + TOP.r][c + TOP.c][0].score + gap);
@@ -103,23 +186,20 @@ function needlemanWunsch(sequence1, sequence2, match = 1, mismatch = -1, gap = -
         }
     }
 
-    // console.log(alignmentGridToString(alignmentGrid));
-
+    // Find a the best path through the alignment grid (highest score)
     const bestPathPositions = dijkstra(alignmentGrid);
 
-    // sequence1 -> sequence2
+    // Construct edits required to go from sequence1 to sequence2
+    // Each subarray i contains the indexes of the sequence2 chars that sequence1 char i turns into
     const edits = new Array(sequence1.length);
     for (let i = 0; i < sequence1.length; i++) {
         edits[i] = [];
     }
     for (let i = 1; i < bestPathPositions.length; i++) {
-        // const positionDiff = bestPathPositions[i].minus(bestPathPositions[i + 1]);
         sequence1Index = bestPathPositions[i].r - 1;
         sequence2Index = bestPathPositions[i].c - 1;
         edits[sequence1Index].push(sequence2Index);
     }
-
-    // console.log(edits);
 
     return edits;
 }
@@ -152,6 +232,7 @@ function dijkstra(alignmentGrid, reverse = false) {
             let edges = [];
             for (const alignment of alignments) {
                 if (alignment.offset !== NONE) {
+                    console.log(-alignment.score);
                     edges.push(new Edge(
                         graphMatrix[r + alignment.offset.r][c + alignment.offset.c],
                         -alignment.score
